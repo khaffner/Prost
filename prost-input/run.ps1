@@ -1,15 +1,23 @@
 #Requires -Version 7.6
 $ErrorActionPreference = "Stop"
 
-$global:OutputFolder = "$PSScriptRoot/../prost-output"
+$SyncthingSystem = & "syncthing" "cli" "show" "system" | ConvertFrom-Json
+$global:ID = $SyncthingSystem.myID.Split("-")[0]
 $global:HostName = & hostname
+
+$SyncthingConfig = & "syncthing" "cli" "config" "dump-json" | ConvertFrom-Json
+$global:OutputFolder = $SyncthingConfig.folders | Where-Object path -like '*prost-output' | Select-Object -ExpandProperty path
+$OutputFolder = $OutputFolder.Replace('~', $SyncthingSystem.tilde) # Resolve tilde if present
+
+$global:InputFolder = $SyncthingConfig.folders | Where-Object path -like '*prost-input' | Select-Object -ExpandProperty path
+$InputFolder = $InputFolder.Replace('~', $SyncthingSystem.tilde) # Resolve tilde if present
 
 function Write-ProstLog {
     param (
         [string]$Message
     )
     $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    "[$Timestamp] [$global:HostName] $Message" | Out-File -FilePath "$global:OutputFolder/$global:ID.log" -Append -Encoding UTF8 -Force
+    "[$Timestamp] [$global:ID] [$global:HostName] $Message" | Out-File -FilePath "$global:OutputFolder/$global:ID.log" -Append -Encoding UTF8 -Force
 }
 
 # Make sure there is enough free space on the drive to write logs and output. Say 1GB.
@@ -20,13 +28,8 @@ if ($FreeSpaceGB -lt 1) {
 }
 
 try {
-    Write-ProstLog "Getting Syncthing ID..."
-    $SyncthingStatus = & "syncthing" "cli" "show" "system" | ConvertFrom-Json
-    $global:ID = $SyncthingStatus.myID.Split("-")[0]
-    Write-ProstLog "Syncthing ID: $global:ID"
-
     Write-ProstLog "Reading assignments from CSV..."
-    $csv = Import-Csv -Path "$PSScriptRoot/assignments.csv"
+    $csv = Import-Csv -Path "$InputFolder/assignments.csv"
     $row = $csv | Where-Object SyncthingID -eq $global:ID
     $scripts = $row.PSObject.Properties | Where-Object { $_.Value -eq "X" } | Select-Object -ExpandProperty Name
     Write-ProstLog "Assigned scripts: $($scripts -join ",")"
@@ -35,11 +38,11 @@ try {
         Write-ProstLog "Running script: $_"
         if ($_.EndsWith(".ps1")) {
             Write-ProstLog "Executing PowerShell script: $_"
-            & "$PSScriptRoot/../payloads/$_" | Out-Null
+            & "$InputFolder/payloads/$_" | Out-Null
         }
         elseif ($_.EndsWith(".sh")) {
             Write-ProstLog "Executing shell script: $_"
-            & "bash" "$PSScriptRoot/../payloads/$_" | Out-Null
+            & "bash" "$InputFolder/payloads/$_" | Out-Null
         }
         else {
             Write-ProstLog "Unknown script type: $_. Skipping."
