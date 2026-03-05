@@ -57,7 +57,6 @@ Not for enterprises. Use Chef, Ansible, etc. Prost is my weird idea after being 
 - Accept both folders:
   - `prost-input` as **Receive Only**
   - `prost-output` as **Send & Receive**
-  - Place them side by side (sibling folders)
 - Run `install.ps1` to set up the systemd service (runs `run.ps1` every hour, adjust as needed)
 
 ---
