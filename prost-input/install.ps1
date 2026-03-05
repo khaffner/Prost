@@ -1,4 +1,8 @@
 #Requires -Version 7.6
+if ($env:USERNAME -ne "root") {
+    Write-Host "This script must be run as root. Please run pwsh with sudo."
+    exit 1
+}
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $ScriptPath = Join-Path $ScriptDir 'run.ps1'
 $ServicePath = '/etc/systemd/system/prost.service'
@@ -6,7 +10,7 @@ $TimerPath = '/etc/systemd/system/prost.timer'
 
 $ServiceContent = @"
 [Unit]
-Description=Run PowerShell script every hour
+Description=Run Prost every hour
 
 [Service]
 Type=oneshot
