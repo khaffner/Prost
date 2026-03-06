@@ -1,0 +1,6 @@
+# Exclude files and folders from release archives
+.gitignore export-ignore
+.gitattributes export-ignore
+.github/ export-ignore
+.vscode/ export-ignore
+CHANGELOG.md export-ignore
