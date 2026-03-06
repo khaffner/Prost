@@ -45,7 +45,7 @@ Not for enterprises. Use Chef, Ansible, etc. Prost is my weird idea after being 
 
 ## ⚡ Quickstart
 
-1. **Clone this repo** to your master node (laptop, VM, etc). Syncthing must already be installed and running.
+1. **Download latest release** to your master node (laptop, VM, etc). Syncthing must already be installed and running.
 
 ### On the Master Node
 - Add `prost-input` as **Send Only** (slaves can't write back)
