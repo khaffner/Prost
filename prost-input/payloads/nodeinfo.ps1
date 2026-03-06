@@ -9,4 +9,4 @@ $info.Display = Get-DisplayInfo
 $info.Network = Get-NetworkInfo -IncludePublicIP
 $info.OS = Get-OSInfo
 $info.SystemUptime = Get-SystemUptime
-$info | ConvertTo-Json -Depth 10 | Out-File -FilePath "$PSScriptRoot/../../prost-output/$global:ID-nodeinfo.json" -Encoding UTF8 -Force
+$info | ConvertTo-Json -Depth 10 | Out-File -FilePath "$global:OutputFolder/$global:ID-nodeinfo.json" -Encoding UTF8 -Force
