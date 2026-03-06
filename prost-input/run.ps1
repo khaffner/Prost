@@ -1,6 +1,6 @@
 #Requires -Version 7.6
 $ErrorActionPreference = "Stop"
-$ProstVersion = "0.1.1" #x-release-please-version
+$ProstVersion = "0.1.2" #x-release-please-version
 
 $SyncthingSystem = & "syncthing" "cli" "show" "system" | ConvertFrom-Json
 $global:ID = $SyncthingSystem.myID.Split("-")[0]
