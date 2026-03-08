@@ -19,6 +19,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Debug - List all files
+        shell: pwsh
+        run: |
+          Write-Host "=== Root directory contents ==="
+          Get-ChildItem -Force | Select-Object Name, Mode
+          Write-Host "`n=== All .ps1 files ==="
+          Get-ChildItem -Recurse -Filter *.ps1 | Select-Object FullName
+
       - name: Run Tests
         shell: pwsh
         run: |
