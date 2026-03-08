@@ -15,6 +15,8 @@ Description=Run Prost every hour
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/pwsh -File $ScriptPath
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=multi-user.target
