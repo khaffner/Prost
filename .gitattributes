@@ -1,6 +1,7 @@
-# Exclude files and folders from release archives
-.gitignore export-ignore
-.gitattributes export-ignore
-.github/ export-ignore
-.vscode/ export-ignore
-CHANGELOG.md export-ignore
+# Only include prost-input and prost-output directories in release archives
+# Exclude everything else by default
+* export-ignore
+
+# Explicitly include these directories (unset export-ignore)
+prost-input/ -export-ignore
+prost-output/ -export-ignore
