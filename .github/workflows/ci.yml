@@ -19,14 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Debug - List files
-        shell: pwsh
-        run: |
-          Write-Host "Current directory:"
-          Get-Location
-          Write-Host "`nAll files:"
-          Get-ChildItem -Recurse -File | Select-Object FullName
-
       - name: Run Tests
         shell: pwsh
         run: |
@@ -38,10 +30,59 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     name: Release Please
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
       - uses: actions/checkout@v4
       - uses: googleapis/release-please-action@v4
+        id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: .github/release-please-config.json
           manifest-file: .github/release-please-manifest.json
+
+  validate-release:
+    needs: release
+    if: needs.release.outputs.release_created == 'true'
+    runs-on: ubuntu-latest
+    name: Validate Release Archive
+    steps:
+      - name: Download Release Archive
+        run: |
+          # Download the source tarball from the release
+          wget https://github.com/${{ github.repository }}/archive/refs/tags/${{ needs.release.outputs.tag_name }}.tar.gz
+          
+      - name: Extract and Validate
+        run: |
+          # Extract the tarball
+          tar -xzf ${{ needs.release.outputs.tag_name }}.tar.gz
+          
+          # Get the extracted directory name (GitHub adds repo-version prefix)
+          EXTRACTED_DIR=$(tar -tzf ${{ needs.release.outputs.tag_name }}.tar.gz | head -1 | cut -f1 -d"/")
+          echo "Extracted directory: $EXTRACTED_DIR"
+          
+          # List contents
+          echo "Contents of release archive:"
+          ls -la "$EXTRACTED_DIR/"
+          
+          # Check that only prost-input and prost-output exist
+          cd "$EXTRACTED_DIR"
+          CONTENTS=$(ls -1)
+          echo "$CONTENTS"
+          
+          # Verify only the two expected directories exist
+          EXPECTED="prost-input
+          prost-output"
+          
+          if [ "$CONTENTS" = "$EXPECTED" ]; then
+            echo "✅ Release archive contains only prost-input and prost-output"
+            exit 0
+          else
+            echo "❌ Release archive contains unexpected files/folders:"
+            echo "Expected:"
+            echo "$EXPECTED"
+            echo "Got:"
+            echo "$CONTENTS"
+            exit 1
+          fi
