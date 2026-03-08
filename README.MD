@@ -1,13 +1,28 @@
 
 <div align="center">
   <h1>🍻 Prost</h1>
-  <strong>(WIP)<br>Payload runner over Syncthing<br>"Prost" means "Cheers" in German so there's also that.</strong>
+  <strong>Payload runner over Syncthing<br>Also, "Prost" means "Cheers" in German.</strong>
   
-  <br><br>
+  <br>
+  
+  ![Status](https://img.shields.io/badge/Status-Work%20In%20Progress-yellow?style=for-the-badge)
+  
+  <br>
   
   [![CI](https://github.com/khaffner/prost/actions/workflows/ci.yml/badge.svg)](https://github.com/khaffner/prost/actions/workflows/ci.yml)
   [![PowerShell](https://img.shields.io/badge/PowerShell-7.4+-blue.svg)](https://github.com/PowerShell/PowerShell)
   [![Syncthing](https://img.shields.io/badge/Syncthing-required-green.svg)](https://syncthing.net/)
+  [![License](https://img.shields.io/github/license/khaffner/prost)](LICENSE)
+  [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/khaffner/prost/graphs/commit-activity)
+  
+  [![Platform](https://img.shields.io/badge/Platform-Linux-blue.svg)](https://www.linux.org/)
+  [![Systemd](https://img.shields.io/badge/Systemd-required-orange.svg)](https://systemd.io/)
+  [![GitHub issues](https://img.shields.io/github/issues/khaffner/prost)](https://github.com/khaffner/prost/issues)
+  [![GitHub last commit](https://img.shields.io/github/last-commit/khaffner/prost)](https://github.com/khaffner/prost/commits)
+  [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](CONTRIBUTING.md)
+  
+  [![GitHub stars](https://img.shields.io/github/stars/khaffner/prost?style=social)](https://github.com/khaffner/prost/stargazers)
+  [![GitHub forks](https://img.shields.io/github/forks/khaffner/prost?style=social)](https://github.com/khaffner/prost/network/members)
   
 </div>
 
