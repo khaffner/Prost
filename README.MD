@@ -20,33 +20,35 @@
 <sub><em>(Tip: You should be familiar with Syncthing before using this.)</em></sub>
 
 
-Prost lets you manage your devices and servers. No network headaches, no SSH tunnels. Just Syncthing magic. Push scripts, collect results, and automate tasks across your fleet, all with minimal setup.
+Prost lets you manage your devices and servers. Push scripts, collect results, and automate tasks across your fleet, all with minimal setup, backed by Syncthing.
 
 **Why?**
 - Ensure packages are installed
 - Make sure services are running
 - Collect node info or logs
-- ...and more, with your own scripts!
+- ...and more
 
 
 ---
 
 ## 👤 Who is Prost for?
 
-Not for enterprises. Use Chef, Ansible, etc. Prost is my weird idea after being exposed to chef. Prost is for you who just want to push scripts and get results back, with zero network config. (Yes, it could be a security nightmare, so use strong passwords and disk encryption, especially on your master node!)
+Not for enterprises, those should use mature solutions like Chef, Ansible, etc. Prost is my weird idea after learning Chef, but loving the decentralized nature and simplicity of Syncthing. Prost is for you who just want to push scripts and get results back, with no extra network config.
 
 ---
 
 ## 🛠️ Requirements
 
-- **systemd**
+- **Systemd**
+  - Cron would also work, but this project uses Systemd.
 - **Syncthing**
   - Should run as a service at boot
-  - `root` must be able to run `syncthing cli show system` at all times
+  - `root` must be able to run `syncthing cli` at all times
 - **PowerShell 7.4+**
-  - Latest LTS (only version properly supported by Debian 13)
+  - Latest LTS
+    - Waiting for 7.6 to release, so Debian 13 is properly supported.
   - PowerShell <3
-    - Don't worry, other languages are also supported as payloads
+    - Don't worry, other languages are also supported as payloads.
 
 ---
 
@@ -66,11 +68,14 @@ Not for enterprises. Use Chef, Ansible, etc. Prost is my weird idea after being 
   - `prost-output` as **Send & Receive**
 - Run `install.ps1` to set up the systemd service (runs `run.ps1` every hour, adjust as needed)
 
+### Want another Master Node?
+- Share both folders between all Master Nodes as **Send & Receive**
+
 ---
 
 ## 📝 Assigning Scripts & Getting Results
 
-1. **Pause** the `prost-input` folder in Syncthing (prevents accidental WIP deployments). [CLI tip](https://forum.syncthing.net/t/stcli-or-how-to-pause-resume-sync-from-cli-in-2022/19345/2)
+1. **Pause** the `prost-input` folder in Syncthing on the master node you work on. (prevents accidental WIP deployments). [CLI tip](https://forum.syncthing.net/t/stcli-or-how-to-pause-resume-sync-from-cli-in-2022/19345/2)
 2. **Create your script** in [`prost-input/payloads/`](prost-input/payloads/). (Try `nodeinfo.ps1` as a starter!)
 3. **Assign nodes** in [`assignments.csv`](prost-input/assignments.csv)
    - Use only the first section of the Syncthing ID
@@ -78,11 +83,10 @@ Not for enterprises. Use Chef, Ansible, etc. Prost is my weird idea after being 
 
 **What happens next?**
 
-1. Files sync to the node
-2. The node runs `run.ps1` hourly
+1. Files sync to the slave node
+2. The slave node runs `run.ps1` hourly
 3. `run.ps1` decides what/how to run
 4. Scripts may write output to `prost-output`
-5. The master node (or an optional "reporting" node) receives the output for review
 
 ---
 
@@ -97,7 +101,7 @@ flowchart TD
     sinput["prost-input folder"]
     soutput["prost-output folder"]
     run.ps1
-    nodeinfo.ps1
+    nodeinfo.ps1["nodeinfo.ps1 (example)"]
   end
     subgraph "Master Node (end)"
     moutput["prost-output folder"]
