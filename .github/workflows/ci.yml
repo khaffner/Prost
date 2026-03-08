@@ -19,6 +19,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Debug - List files
+        shell: pwsh
+        run: |
+          Write-Host "Current directory:"
+          Get-Location
+          Write-Host "`nAll files:"
+          Get-ChildItem -Recurse -File | Select-Object FullName
+
       - name: Run Tests
         shell: pwsh
         run: |
