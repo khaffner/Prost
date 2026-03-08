@@ -23,7 +23,7 @@ jobs:
         shell: pwsh
         run: |
           pwsh --version
-          ./test.ps1
+          pwsh ./test.ps1
 
   release:
     needs: test
