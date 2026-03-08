@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1](https://github.com/khaffner/Prost/compare/0.2.0...0.2.1) (2026-03-08)
+
+
+### Bug Fixes
+
+* Inclusions instead of exclusions ([cd0b473](https://github.com/khaffner/Prost/commit/cd0b473860778c5e683e8e1e1da2c3f579b94299))
+* New release test ([8b64940](https://github.com/khaffner/Prost/commit/8b64940d21d04961641705e17106eaf3e330113e))
+
 ## [0.2.0](https://github.com/khaffner/prost/compare/0.1.2...0.2.0) (2026-03-08)
 
 
