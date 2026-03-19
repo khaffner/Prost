@@ -2,31 +2,59 @@ name: Check PowerShell 7.6 Release
 
 on:
   schedule:
-    - cron: '0 12 * * *'  # Run daily at noon UTC
+    - cron: '0 6 * * *'  # Run daily at 6 AM UTC
   workflow_dispatch:  # Allow manual trigger for testing
 
 jobs:
   check-upgrade:
     runs-on: ubuntu-latest
-    name: Check for PowerShell 7.6 Stable
+    name: Check for PowerShell 7.6 on Debian
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check PowerShell Releases
+      - name: Test PowerShell 7.6 LTS Installation
         id: check
         run: |
-          echo "Checking PowerShell releases for 7.6 stable..."
+          echo "Testing PowerShell 7.6 LTS installation on Debian 13..."
           
-          # Get latest releases from PowerShell repo
-          RELEASES=$(curl -s https://api.github.com/repos/PowerShell/PowerShell/releases)
+          # Create Dockerfile for testing
+          cat > Dockerfile.test <<'EOF'
+          FROM debian:13
           
-          # Check if 7.6.0 stable exists (not preview/rc)
-          STABLE_76=$(echo "$RELEASES" | jq -r '.[] | select(.tag_name | test("^v7\\.6\\.0$")) | .tag_name')
+          RUN apt-get update && apt-get install -y \
+              wget \
+              apt-transport-https \
+              software-properties-common
           
-          if [ -n "$STABLE_76" ]; then
+          # Add Microsoft repository and key
+          RUN wget -q "https://packages.microsoft.com/config/debian/13/packages-microsoft-prod.deb" -O packages-microsoft-prod.deb && \
+              dpkg -i packages-microsoft-prod.deb && \
+              rm packages-microsoft-prod.deb
+          
+          # Update package list and install PowerShell LTS
+          RUN apt-get update && apt-get install -y powershell-lts
+          
+          # Verify installation and check version
+          RUN pwsh -Command '$PSVersionTable'
+          EOF
+          
+          # Try to build the Docker image
+          if docker build -f Dockerfile.test -t test-powershell . 2>&1 | tee build.log; then
+            # Extract PowerShell version from build output
+            VERSION=$(docker run --rm test-powershell pwsh -Command '$PSVersionTable.PSVersion.ToString()' 2>/dev/null || echo "unknown")
+            
             echo "found=true" >> $GITHUB_OUTPUT
-            echo "version=$STABLE_76" >> $GITHUB_OUTPUT
-            echo "✅ Found PowerShell 7.6 stable: $STABLE_76"
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "✅ Successfully installed PowerShell LTS on Debian 13: $VERSION"
+            
+            # Check if this is version 7.6.x
+            if echo "$VERSION" | grep -q "^7\.6\."; then
+              echo "is_76=true" >> $GITHUB_OUTPUT
+              echo "🎉 Version 7.6 confirmed!"
+            else
+              echo "is_76=false" >> $GITHUB_OUTPUT
+              echo "⚠️ Version installed but not 7.6: $VERSION"
+            fi
             
             # Check if issue already exists
             EXISTING_ISSUE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
@@ -41,21 +69,26 @@ jobs:
             fi
           else
             echo "found=false" >> $GITHUB_OUTPUT
-            echo "⏳ PowerShell 7.6 stable not yet released"
+            echo "⏳ PowerShell 7.6 LTS not yet available on Debian 13 Microsoft apt repository"
+            cat build.log
           fi
+          
+          # Cleanup
+          rm -f Dockerfile.test build.log
+          docker rmi test-powershell 2>/dev/null || true
 
       - name: Create Issue
-        if: steps.check.outputs.found == 'true' && steps.check.outputs.issue_exists != 'true'
+        if: steps.check.outputs.found == 'true' && steps.check.outputs.is_76 == 'true' && steps.check.outputs.issue_exists != 'true'
         uses: actions/github-script@v7
         with:
           script: |
             const issue = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: '🚀 PowerShell 7.6 Stable Released - Upgrade Required',
-              body: `## PowerShell 7.6 is now stable! 🎉
+              title: '🚀 PowerShell 7.6 LTS Available on Debian - Upgrade Required',
+              body: `## PowerShell 7.6 LTS is now available on Debian! 🎉
             
-            PowerShell **${{ steps.check.outputs.version }}** has been released as stable.
+            PowerShell **${{ steps.check.outputs.version }}** is now installable from the Microsoft apt repository on Debian 13.
             
             ### What needs updating:
             - [ ] README.MD badge (\`7.4+\` → \`7.6+\`)
@@ -63,8 +96,8 @@ jobs:
             - [ ] All \`*.ps1\` files with \`#Requires -Version 7.4\`
             - [ ] CONTRIBUTING.md (\`7.4+\` → \`7.6+\`)
             
-            ### Release Notes
-            https://github.com/PowerShell/PowerShell/releases/tag/${{ steps.check.outputs.version }}
+            ### Verification
+            Successfully installed \`powershell-lts\` package from Microsoft apt repository on Debian 13.
             
             ---
             *This issue was automatically created by the PowerShell upgrade checker workflow.*`,
