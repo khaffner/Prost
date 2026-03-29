@@ -59,20 +59,20 @@ Not for enterprises, those should use mature solutions like Chef, Ansible, etc. 
 - **Syncthing**
   - Should run as a service at boot
   - `root` must be able to run `syncthing cli` at all times
-- **PowerShell 7.4+**
-  - Latest LTS
-    - Waiting for 7.6 to release, so Debian 13 is properly supported.
-  - PowerShell <3
-    - Don't worry, other languages are also supported as payloads.
+- **PowerShell**
+  - Any supported version is fine
+  - Somewhat opinionated, any scripting language would work
+  - I just really like Powershell, and it's made for things like this
 
 ---
 
 ## ⚡ Quickstart
 
-1. **Download latest release** to your master node (laptop, VM, etc). Syncthing must already be installed and running.
+1. **Download latest release** to your master node (laptop, VM, etc). Syncthing must already be installed and running. You can also just clone down the repo, the releases are just a stripped down snapshot of the repo.
 
 ### On the Master Node
 - Add `prost-input` as **Send Only** (slaves can't write back)
+  - Or use **Send & Receive** if you trust the devices and/or want multiple master nodes
 - Add `prost-output` as **Send & Receive** (shared dumping ground for outputs/logs)
 - remove _template from the assignments csv
 - Add your nodes and share both folders with them
