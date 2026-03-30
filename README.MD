@@ -55,14 +55,13 @@ Not for enterprises, those should use mature solutions like Chef, Ansible, etc. 
 ## 🛠️ Requirements
 
 - **Systemd**
-  - Cron would also work, but this project uses Systemd.
 - **Syncthing**
   - Should run as a service at boot
   - `root` must be able to run `syncthing cli` at all times
 - **PowerShell**
-  - Any supported version is fine
-  - Somewhat opinionated, any scripting language would work
-  - I just really like Powershell, and it's made for things like this
+  - Any supported version is fine, but depends on your payloads
+    - Your stuff might need the newest version
+  - Must be at /usr/bin/pwsh
 
 ---
 
@@ -71,17 +70,17 @@ Not for enterprises, those should use mature solutions like Chef, Ansible, etc. 
 1. **Download latest release** to your master node (laptop, VM, etc). Syncthing must already be installed and running. You can also just clone down the repo, the releases are just a stripped down snapshot of the repo.
 
 ### On the Master Node
-- Add `prost-input` as **Send Only** (slaves can't write back)
+- Add `prost-input` as **Send Only*** (slaves can't write back)
   - Or use **Send & Receive** if you trust the devices and/or want multiple master nodes
 - Add `prost-output` as **Send & Receive** (shared dumping ground for outputs/logs)
 - remove _template from the assignments csv
-- Add your nodes and share both folders with them
+- Add your slave nodes and share both folders with them
 
-### On Each "Slave" Node
+### On Each Slave Node
 - Accept both folders:
   - `prost-input` as **Receive Only**
   - `prost-output` as **Send & Receive**
-- Run `install.ps1` to set up the systemd service (runs `run.ps1` every hour, adjust as needed)
+- Run `install.ps1` as root to set up the systemd service (runs `run.ps1` every hour, adjust as needed)
 
 ### Want another Master Node?
 - Share both folders between all Master Nodes as **Send & Receive**
@@ -98,7 +97,7 @@ Not for enterprises, those should use mature solutions like Chef, Ansible, etc. 
 
 **What happens next?**
 
-1. Files sync to the slave node
+1. Files sync to the slave node(s)
 2. The slave node runs `run.ps1` hourly
 3. `run.ps1` decides what/how to run
 4. Scripts may write output to `prost-output`
