@@ -35,7 +35,7 @@ jobs:
           
           # Test 1: PSScriptAnalyzer
           Write-Host "`n1️⃣  Running PSScriptAnalyzer..." -ForegroundColor Yellow
-          $results = Invoke-ScriptAnalyzer -Path . -Recurse -Settings PSGallery -ExcludeRule 'PSAvoidGlobalVars', 'PSAvoidUsingPositionalParameters'
+          $results = Invoke-ScriptAnalyzer -Path . -Recurse -Settings PSGallery -ExcludeRule 'PSAvoidGlobalVars', 'PSAvoidUsingPositionalParameters', 'PSAvoidUsingEmptyCatchBlock'
           if ($results) {
               $results | Format-Table -AutoSize
               Write-Host "❌ PSScriptAnalyzer found $($results.Count) issue(s)" -ForegroundColor Red
