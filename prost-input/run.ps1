@@ -37,7 +37,6 @@ try {
     Write-ProstLog "Assigned scripts: $($scripts -join ",")"
 
     $scripts | ForEach-Object {
-        Write-ProstLog "Running script: $_"
         if ($_.EndsWith(".ps1")) {
             Write-ProstLog "Executing PowerShell script: $_"
             & "$InputFolder/payloads/$_" | Out-Null
