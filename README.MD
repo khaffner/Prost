@@ -5,10 +5,6 @@
   
   <br>
   
-  ![Status](https://img.shields.io/badge/Status-Work%20In%20Progress-yellow?style=for-the-badge)
-  
-  <br>
-  
   [![CI](https://github.com/khaffner/prost/actions/workflows/ci.yml/badge.svg)](https://github.com/khaffner/prost/actions/workflows/ci.yml)
   [![PowerShell](https://img.shields.io/badge/PowerShell-7.4+-blue.svg)](https://github.com/PowerShell/PowerShell)
   [![Syncthing](https://img.shields.io/badge/Syncthing-required-green.svg)](https://syncthing.net/)
