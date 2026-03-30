@@ -2,11 +2,12 @@
 $ErrorActionPreference = "Stop"
 $ProstVersion = "0.2.1" #x-release-please-version
 
-$SyncthingSystem = & "syncthing" "cli" "show" "system" | ConvertFrom-Json
+$SyncthingHome = Get-ChildItem -Path "/home/*/.local/state" -Directory -Recurse -Filter "syncthing" -Force | Select-Object -ExpandProperty FullName
+$SyncthingSystem = & "syncthing" "cli" "-H" "$SyncthingHome" "show" "system" | ConvertFrom-Json
 $global:ID = $SyncthingSystem.myID.Split("-")[0]
 $global:HostName = & hostname
 
-$SyncthingConfig = & "syncthing" "cli" "config" "dump-json" | ConvertFrom-Json
+$SyncthingConfig = & "syncthing" "cli" "-H" "$SyncthingHome" "config" "dump-json" | ConvertFrom-Json
 $global:OutputFolder = $SyncthingConfig.folders | Where-Object path -like '*prost-output' | Select-Object -ExpandProperty path
 $global:OutputFolder = $global:OutputFolder.Replace('~', $SyncthingSystem.tilde) # Resolve tilde if present
 
