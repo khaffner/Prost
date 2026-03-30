@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.2](https://github.com/khaffner/Prost/compare/0.2.1...0.2.2) (2026-03-30)
+
+
+### Bug Fixes
+
+* Replace non-working erroractions with trycatch blocks ([357dd13](https://github.com/khaffner/Prost/commit/357dd131fad048bdbff288dae1441db42e447227))
+* Specify home path of syncthing ([82c36d6](https://github.com/khaffner/Prost/commit/82c36d6b0ff10db1db795145865b854c1d235b43))
+* Working root detection ([75e9faf](https://github.com/khaffner/Prost/commit/75e9faf0c070ce50951220a1ea971663ab908852))
+
 ## [0.2.1](https://github.com/khaffner/Prost/compare/0.2.0...0.2.1) (2026-03-08)
 
 
