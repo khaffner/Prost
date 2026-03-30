@@ -1,5 +1,5 @@
 #Requires -Version 7.4
-if ($env:USERNAME -ne "root") {
+if ($(whoami) -ne "root") {
     Write-Host "This script must be run as root. Please run pwsh with sudo."
     exit 1
 }
