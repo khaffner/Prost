@@ -119,10 +119,18 @@ flowchart TD
 
   minput --Send only-->sinput--Hourly systemd task-->run.ps1 -->nodeinfo.ps1-->soutput<--Send & Receive-->moutput
 ```
-
 ---
+### AI disclosure
+I think we're supposed to have something like this now?
 
-
+| Part | Intelligence |
+|----------|----------|
+| Idea and architecture | Mine |
+| Powershell code | Mostly mine |
+| Systemd units | Artificial |
+| Docs | Mostly artificial |
+| GitHub workflows | Mostly artificial |
+---
 <div align="center">
   <strong>🍻 Prost!</strong>
 </div>
