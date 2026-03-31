@@ -3,56 +3,17 @@ if (!(Get-InstalledModule -Name linuxinfo -RequiredVersion 0.0.8 -ErrorAction Si
 }
 Import-Module -Name linuxinfo -RequiredVersion 0.0.8 -Force
 
+$ErrorActionPreference = "SilentlyContinue"
 $info = @{}
-
-try {
-    $info.Battery = Get-BatteryInfo
-}
-catch {}
-
-try {
-    $info.Computer = Get-ComputerInfo
-}
-catch {}
-
-try {
-    $info.Display = Get-DisplayInfo
-}
-catch {}
-
-try {
-    $info.Network = Get-NetworkInfo -IncludePublicIP
-}
-catch {}
-
-try {
-    $info.OS = Get-OSInfo
-}
-catch {}
-
-try {
-    $info.UptimeDays = [int](Get-Uptime).TotalDays
-}
-catch {}
-
-try {
-    $info.LoadPercent = [int]([float](Get-Content /proc/loadavg).Split(' ')[1] / [int](nproc) * 100)
-}
-catch {}
-
-try {
-    $info.AptUpdates = apt list --upgradable 2>/dev/null | Select-Object -Skip 1
-}
-catch {}
-
-try {
-    $info.PSVersion = $PSVersionTable.PSVersion.ToString()
-}
-catch {}
-
-try {
-    $info.TimeStamp = Get-Date -Format "o"
-}
-catch {}
-
+$info.Battery = Get-BatteryInfo
+$info.Computer = Get-ComputerInfo
+$info.Display = Get-DisplayInfo
+$info.Network = Get-NetworkInfo -IncludePublicIP
+$info.OS = Get-OSInfo
+$info.UptimeDays = [int](Get-Uptime).TotalDays
+$info.LoadPercent = [int]([float](Get-Content /proc/loadavg).Split(' ')[1] / [int](nproc) * 100)
+$info.AptUpdates = apt list --upgradable 2>/dev/null | Select-Object -Skip 1
+$info.PSVersion = $PSVersionTable.PSVersion.ToString()
+$info.TimeStamp = Get-Date -Format "o"
+$ErrorActionPreference = "Stop"
 $info | ConvertTo-Json -Depth 10 | Out-File -FilePath "$global:OutputFolder/$global:ID-nodeinfo.json" -Encoding UTF8 -Force
