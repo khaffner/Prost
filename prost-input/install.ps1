@@ -41,6 +41,7 @@ Description=Timer for prost.service
 
 [Timer]
 OnCalendar=hourly
+RandomizedDelaySec=5min
 Persistent=true
 
 [Install]
