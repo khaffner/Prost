@@ -7,6 +7,7 @@ $info = @{}
 $info.Battery = try { Get-BatteryInfo } catch { $null }
 $info.Computer = try { Get-ComputerInfo } catch { $null }
 $info.Network = try { Get-NetworkInfo -IncludePublicIP } catch { $null }
+$info.Network.PublicIP = $info.Network.PublicIP.Trim() # Remove annoying whitespace..
 $info.OS = try { Get-OSInfo } catch { $null }
 $info.UptimeDays = try { [int](Get-Uptime).TotalDays } catch { $null }
 $info.LoadPercent = try { [int]([float](Get-Content /proc/loadavg).Split(' ')[1] / [int](nproc) * 100) } catch { $null }
