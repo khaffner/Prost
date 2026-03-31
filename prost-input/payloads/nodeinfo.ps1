@@ -8,64 +8,46 @@ $info = @{}
 try {
     $info.Battery = Get-BatteryInfo
 }
-catch {
-
-}
+catch {}
 
 try {
     $info.Computer = Get-ComputerInfo
 }
-catch {
-
-}
+catch {}
 
 try {
     $info.Display = Get-DisplayInfo
 }
-catch {
-
-}
+catch {}
 
 try {
     $info.Network = Get-NetworkInfo -IncludePublicIP
 }
-catch {
-
-}
+catch {}
 
 try {
     $info.OS = Get-OSInfo
 }
-catch {
-
-}
+catch {}
 
 try {
     $info.Uptime = & uptime
 }
-catch {
-
-}
+catch {}
 
 try {
     $info.Load = [int]([float](Get-Content /proc/loadavg).Split(' ')[1] / [int](nproc) * 100)
 }
-catch {
-
-}
+catch {}
 
 try {
     $info.AptUpdates = apt list --upgradable 2>/dev/null | Select-Object -Skip 1
 }
-catch {
-
-}
+catch {}
 
 try {
     $info.PSVersion = $PSVersionTable.PSVersion.ToString()
 }
-catch {
-
-}
+catch {}
 
 $info | ConvertTo-Json -Depth 10 | Out-File -FilePath "$global:OutputFolder/$global:ID-nodeinfo.json" -Encoding UTF8 -Force
