@@ -6,6 +6,7 @@ $SyncthingHome = Get-ChildItem -Path "/home/*/.local/state" -Directory -Recurse 
 $SyncthingSystem = & "syncthing" "cli" "-H" "$SyncthingHome" "show" "system" | ConvertFrom-Json
 $global:ID = $SyncthingSystem.myID.Split("-")[0]
 $global:HostName = & hostname
+$Username = $SyncthingHome.Split("/")[2]
 
 $SyncthingConfig = & "syncthing" "cli" "-H" "$SyncthingHome" "config" "dump-json" | ConvertFrom-Json
 $global:OutputFolder = $SyncthingConfig.folders | Where-Object path -like '*prost-output' | Select-Object -ExpandProperty path
@@ -49,6 +50,10 @@ try {
             Write-ProstLog "Unknown script type: $_. Skipping."
         }
     }
+    
+    Write-ProstLog "Fixing file ownership and permissions in output folder..."
+    & chown -R "${Username}:${Username}" $global:OutputFolder
+    & chmod -R u+w $global:OutputFolder
 }
 catch {
     Write-ProstLog "Error: $_"
