@@ -4,6 +4,8 @@ if (!(Get-InstalledModule -Name linuxinfo -RequiredVersion 0.0.8 -ErrorAction Si
 Import-Module -Name linuxinfo -RequiredVersion 0.0.8 -Force
 
 $info = @{}
+$info.ID = $global:ID
+$info.HostName = $global:HostName
 $info.Battery = try { Get-BatteryInfo } catch { $null }
 $info.Computer = try { Get-ComputerInfo } catch { $null }
 $info.Network = try { Get-NetworkInfo -IncludePublicIP } catch { $null }
