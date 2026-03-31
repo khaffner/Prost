@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.3.0](https://github.com/khaffner/Prost/compare/0.2.2...0.3.0) (2026-03-31)
+
+
+### Features
+
+* Add example for script that gathers all nodeinfo ([1270a04](https://github.com/khaffner/Prost/commit/1270a046aef329fa5a40f5b50e2807e53f4db501))
+* Add memoryusedpercent ([54e9fcd](https://github.com/khaffner/Prost/commit/54e9fcd376ad9f9a04375627e75baf8cf362344e))
+* Add more info ([d9ee9b4](https://github.com/khaffner/Prost/commit/d9ee9b4191885900de3cf6d109af685d60698394))
+* Add random delay, so everyone does not hit syncthing at the same time ([d833d68](https://github.com/khaffner/Prost/commit/d833d68d4fd2f3c8e3fc5e0ba7b5a6451f8b6634))
+* More data ([f49e2d2](https://github.com/khaffner/Prost/commit/f49e2d2f264557985806df5043e9f781709e7e2f))
+
+
+### Bug Fixes
+
+* Add missing ID and hostname ([8c5ce4a](https://github.com/khaffner/Prost/commit/8c5ce4aab8a5d4980e51e4449215e3c97f63825a))
+* Expand aliases ([d1dc6f2](https://github.com/khaffner/Prost/commit/d1dc6f250007e89575e26d8f716b4fa2cf07bc90))
+* Ownership and permissions of file created by prost ([1a085ae](https://github.com/khaffner/Prost/commit/1a085aeae95b519cad56c516b8652be316ccbbc2))
+* Remove annoying whitespace.. ([5c9ffff](https://github.com/khaffner/Prost/commit/5c9ffffdc2ff967a3c942f4ec8c1d594ea6074ec))
+* Small fixes after systemd testing ([9dd7c71](https://github.com/khaffner/Prost/commit/9dd7c7151542e9ea1ea70aa3633b4382c46b03c5))
+
 ## [0.2.2](https://github.com/khaffner/Prost/compare/0.2.1...0.2.2) (2026-03-30)
 
 
