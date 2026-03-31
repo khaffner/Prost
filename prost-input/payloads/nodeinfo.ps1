@@ -41,7 +41,28 @@ catch {
 }
 
 try {
-    $info.SystemUptime = Get-SystemUptime
+    $info.Uptime = & uptime
+}
+catch {
+
+}
+
+try {
+    $info.Load = [int]([float](Get-Content /proc/loadavg).Split(' ')[1] / [int](nproc) * 100)
+}
+catch {
+
+}
+
+try {
+    $info.AptUpdates = apt list --upgradable 2>/dev/null | Select-Object -Skip 1
+}
+catch {
+
+}
+
+try {
+    $info.PSVersion = $PSVersionTable.PSVersion.ToString()
 }
 catch {
 
