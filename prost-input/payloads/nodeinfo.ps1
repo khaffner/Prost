@@ -31,12 +31,12 @@ try {
 catch {}
 
 try {
-    $info.Uptime = & uptime
+    $info.UptimeDays = [int](Get-Uptime).TotalDays
 }
 catch {}
 
 try {
-    $info.Load = [int]([float](Get-Content /proc/loadavg).Split(' ')[1] / [int](nproc) * 100)
+    $info.LoadPercent = [int]([float](Get-Content /proc/loadavg).Split(' ')[1] / [int](nproc) * 100)
 }
 catch {}
 
@@ -47,6 +47,11 @@ catch {}
 
 try {
     $info.PSVersion = $PSVersionTable.PSVersion.ToString()
+}
+catch {}
+
+try {
+    $info.TimeStamp = Get-Date -Format "o"
 }
 catch {}
 
