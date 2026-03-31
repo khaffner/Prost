@@ -8,6 +8,7 @@ prost-input/assignments.csv
 prost-input/payloads/*
 !prost-input/payloads/nodeinfo.ps1
 
-# Ignore the contents of the prost-output folder, except for the .gitkeep file
+# Ignore the contents of the prost-output folder, except for the .gitkeep file and nodeinfo_overview.ps1 example
 prost-output/*
 !prost-output/.gitkeep
+!prost-output/nodeinfo_overview.ps1
