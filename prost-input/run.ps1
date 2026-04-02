@@ -6,8 +6,9 @@ $SyncthingHome = Get-ChildItem -Path "/home/*/.local/state" -Directory -Recurse 
 $SyncthingSystem = & "syncthing" "cli" "-H" "$SyncthingHome" "show" "system" | ConvertFrom-Json
 $global:ID = $SyncthingSystem.myID.Split("-")[0]
 $global:HostName = & hostname
-$Username = $SyncthingHome.Split("/")[2]
+$global:Username = $SyncthingHome.Split("/")[2]
 
+$global:SyncthingVersion = (& "syncthing" "cli" "-H" "$SyncthingHome" "show" "version" | ConvertFrom-Json).Version.Trimstart('v')
 $SyncthingConfig = & "syncthing" "cli" "-H" "$SyncthingHome" "config" "dump-json" | ConvertFrom-Json
 $global:OutputFolder = $SyncthingConfig.folders | Where-Object path -like '*prost-output' | Select-Object -ExpandProperty path
 $global:OutputFolder = $global:OutputFolder.Replace('~', $SyncthingSystem.tilde) # Resolve tilde if present
@@ -52,10 +53,15 @@ try {
     }
     
     Write-ProstLog "Fixing file ownership and permissions in output folder..."
-    & chown -R "${Username}:${Username}" $global:OutputFolder
+    & chown -R "${global:Username}:${global:Username}" $global:OutputFolder
     & chmod -R u+w $global:OutputFolder
 }
 catch {
-    Write-ProstLog "Error: $_"
+    Write-ProstLog "Error: $($_.Exception.GetType().FullName)"
+    Write-ProstLog "Message: $($_.Exception.Message)"
+    Write-ProstLog "Script: $($_.InvocationInfo.ScriptName)"
+    Write-ProstLog "Line: $($_.InvocationInfo.ScriptLineNumber)"
+    Write-ProstLog "Command: $($_.InvocationInfo.Line.Trim())"
+    Write-ProstLog "Stack trace: $($_.ScriptStackTrace)"
     exit 1
 }
