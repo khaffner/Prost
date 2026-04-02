@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/khaffner/Prost/compare/0.3.0...0.4.0) (2026-04-02)
+
+
+### Features
+
+* More details and pretty html reporting ([5d9d8b6](https://github.com/khaffner/Prost/commit/5d9d8b6595272faacd39c02337e67886c7ac69cc))
+
 ## [0.3.0](https://github.com/khaffner/Prost/compare/0.2.2...0.3.0) (2026-03-31)
 
 
