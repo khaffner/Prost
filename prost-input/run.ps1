@@ -1,6 +1,6 @@
 #Requires -Version 7.4
 $ErrorActionPreference = "Stop"
-$ProstVersion = "0.3.0" #x-release-please-version
+$ProstVersion = "0.4.0" #x-release-please-version
 
 $SyncthingHome = Get-ChildItem -Path "/home/*/.local/state" -Directory -Recurse -Filter "syncthing" -Force | Select-Object -ExpandProperty FullName
 $SyncthingSystem = & "syncthing" "cli" "-H" "$SyncthingHome" "show" "system" | ConvertFrom-Json
