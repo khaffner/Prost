@@ -19,14 +19,15 @@ ForEach-Object {
     ModelName, `
     PSVersion, `
     STVersion, `
-    UptimeDays, `
-@{Name = 'Chassis'; Expression = { if ($_.Hostnamectl) { $_.Hostnamectl.Chassis } else { $null } } }, `
+    DaysUp, `
+@{Name = 'Chassis'; Expression = { if ($_.Hostnamectl.Chassis) { $_.Hostnamectl.Chassis } else { "sbc" } } }, `
 @{Name = "LocalIP"; Expression = { if ($_.Network.LocalIP) { $_.Network.LocalIP } else { $null } } }, `
 @{Name = "PublicIP"; Expression = { if ($_.Network.PublicIP) { $_.Network.PublicIP } else { $null } } }, `
 @{Name = 'DistName'; Expression = { if ($_.OS) { $_.OS.DistName } else { $null } } }, `
 @{Name = 'Bat%'; Expression = { if ($_.Battery) { $_.Battery.Percentage } else { $null } } }, `
 @{Name = 'Load%'; Expression = { if ($_.LoadPercent) { $_.LoadPercent } else { $null } } }, `
-@{Name = 'MemoryUsed%'; Expression = { if ($_.MemoryUsedPercent) { $_.MemoryUsedPercent } else { $null } } }, `
-@{Name = 'AptUpdCount'; Expression = { if ($_.AptUpdates) { $_.AptUpdates.Count } else { 0 } } }, `
+@{Name = 'RAM%'; Expression = { if ($_.RAMUsedPercent) { $_.RAMUsedPercent } else { $null } } }, `
+@{Name = 'Disk%'; Expression = { if ($_.DiskUsedPercent) { $_.DiskUsedPercent } else { $null } } }, `
+@{Name = 'Ports'; Expression = { if ($_.ListeningPorts) { ($_.ListeningPorts | Sort-Object -Unique) -join "`n" } else { $null } } }, `
 @{Name = 'AptUpd'; Expression = { if ($_.AptUpdates) { ($_.AptUpdates | Sort-Object) -join "`n" } else { $null } } } `
 | ConvertTo-Html -Head $Header | Out-File -FilePath "$PSScriptRoot/nodeinfo_overview.html" -Encoding UTF8 -Force
