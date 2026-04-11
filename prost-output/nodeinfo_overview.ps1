@@ -23,7 +23,7 @@ ForEach-Object {
 @{Name = 'Chassis'; Expression = { if ($_.Hostnamectl.Chassis) { $_.Hostnamectl.Chassis } else { "sbc" } } }, `
 @{Name = "LocalIP"; Expression = { if ($_.Network.LocalIP) { $_.Network.LocalIP } else { $null } } }, `
 @{Name = "PublicIP"; Expression = { if ($_.Network.PublicIP) { $_.Network.PublicIP } else { $null } } }, `
-@{Name = 'DistName'; Expression = { if ($_.OS) { $_.OS.DistName } else { $null } } }, `
+@{Name = 'DistName'; Expression = { if ($_.OS) { $_.OS.DistName.Replace('GNU/Linux ', '') } else { $null } } }, `
 @{Name = 'Bat%'; Expression = { if ($_.Battery) { $_.Battery.Percentage } else { $null } } }, `
 @{Name = 'Load%'; Expression = { if ($_.LoadPercent) { $_.LoadPercent } else { $null } } }, `
 @{Name = 'RAM%'; Expression = { if ($_.RAMUsedPercent) { $_.RAMUsedPercent } else { $null } } }, `
