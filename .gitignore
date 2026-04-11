@@ -4,11 +4,11 @@ prost-input/.stfolder
 # Ignore the assignments.csv file, which is not for github or other people to see
 prost-input/assignments.csv
 
-# Ignore the contents of the scripts folder, except for the nodeinfo.ps1 example
+# Ignore the contents of the scripts folder, except for the nodeinfo examples
 prost-input/payloads/*
 !prost-input/payloads/nodeinfo.ps1
+!prost-input/payloads/nodeinfo_overview.ps1
 
-# Ignore the contents of the prost-output folder, except for the .gitkeep file and nodeinfo_overview.ps1 example
+# Ignore the contents of the prost-output folder, except for the .gitkeep file
 prost-output/*
 !prost-output/.gitkeep
-!prost-output/nodeinfo_overview.ps1

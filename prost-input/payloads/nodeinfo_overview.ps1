@@ -8,7 +8,7 @@ TR:hover {background-color: #2a2d2e;}
 </style>
 "@
 
-Get-ChildItem -Path "$PSScriptRoot/*-nodeinfo.json" | 
+Get-ChildItem -Path "$global:OutputFolder/*-nodeinfo.json" | 
 ForEach-Object { 
     Get-Content $_ | 
     ConvertFrom-Json 
@@ -30,4 +30,4 @@ ForEach-Object {
 @{Name = 'Disk%'; Expression = { if ($_.DiskUsedPercent) { $_.DiskUsedPercent } else { $null } } }, `
 @{Name = 'Ports'; Expression = { if ($_.ListeningPorts) { ($_.ListeningPorts | Sort-Object -Unique) -join "`n" } else { $null } } }, `
 @{Name = 'AptUpd'; Expression = { if ($_.AptUpdates) { ($_.AptUpdates | Sort-Object) -join "`n" } else { $null } } } `
-| ConvertTo-Html -Head $Header | Out-File -FilePath "$PSScriptRoot/nodeinfo_overview.html" -Encoding UTF8 -Force
+| ConvertTo-Html -Head $Header | Out-File -FilePath "$global:OutputFolder/nodeinfo_overview.html" -Encoding UTF8 -Force
