@@ -1,3 +1,5 @@
+Start-Sleep -Seconds 600 # Wait 10 minutes to allow all nodeinfo.json files to be generated
+
 $Header = @"
 <style>
 body {background-color: #1e1e1e; color: #d4d4d4; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
