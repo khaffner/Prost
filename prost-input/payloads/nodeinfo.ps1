@@ -46,7 +46,7 @@ $info.ListeningPorts = try {
             if ($process -eq 'docker-proxy') {
                 $container = (docker ps --filter "publish=$port" --format "{{.Names}}" 2>/dev/null | Select-Object -First 1)
                 if ($container) {
-                    "$port-$container(docker)"
+                    "$port-$container🐋"
                 }
                 else {
                     "$port-$process"
