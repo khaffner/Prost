@@ -20,7 +20,7 @@ function Write-ProstLog {
     param (
         [string]$Message
     )
-    $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss.fff"
     "[$Timestamp] [$ProstVersion] [$global:ID] [$global:HostName] $Message" | Out-File -FilePath "$global:OutputFolder/$global:ID.log" -Append -Encoding UTF8 -Force
 }
 
@@ -50,6 +50,7 @@ try {
         else {
             Write-ProstLog "Unknown script type: $_. Skipping."
         }
+        Write-ProstLog "Done executing $_"
     }
     
     Write-ProstLog "Fixing file ownership and permissions in output folder..."
