@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.1](https://github.com/khaffner/Prost/compare/0.4.0...0.4.1) (2026-04-12)
+
+
+### Bug Fixes
+
+* Add sleep duration to allow nodeinfo.json files generation ([f98e27d](https://github.com/khaffner/Prost/commit/f98e27d0596d808c8bf4760668e0e3d3224731be))
+* better logging ([865d6b8](https://github.com/khaffner/Prost/commit/865d6b807ddfc1ff16afd74457c31aa37437d46d))
+* Moved the overview to be used as a payload ([6d827bd](https://github.com/khaffner/Prost/commit/6d827bd3973888e5bb794f1a0081a10e3e3698b9))
+
 ## [0.4.0](https://github.com/khaffner/Prost/compare/0.3.0...0.4.0) (2026-04-06)
 
 
